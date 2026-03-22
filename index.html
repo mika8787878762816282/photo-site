@@ -104,9 +104,10 @@
     #hero {
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
-      background: var(--light-bg);
+      background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('hero-bg.jpg') center/cover no-repeat;
       text-align: center;
       padding: 8rem 2rem 4rem;
+      position: relative;
     }
     .hero-inner { max-width: 700px; }
     .hero-tag {
@@ -114,8 +115,8 @@
       font-size: 0.72rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--accent);
-      border: 1px solid rgba(201,169,110,0.4);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.5);
       padding: 0.35rem 1rem;
       margin-bottom: 2rem;
       font-family: 'Arial', sans-serif;
@@ -125,13 +126,13 @@
       font-weight: 300;
       line-height: 1.1;
       letter-spacing: 0.03em;
-      color: var(--text);
+      color: #fff;
     }
     h1 em { color: var(--accent); font-style: italic; }
     .hero-sub {
       margin-top: 1.5rem;
       font-size: 1.05rem;
-      color: var(--subtle);
+      color: rgba(255,255,255,0.85);
       font-style: italic;
       line-height: 1.7;
     }
@@ -184,13 +185,8 @@
     }
     .pres-photo {
       aspect-ratio: 3/4;
-      background: var(--light-bg);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--border);
-      font-size: 0.85rem;
-      font-family: 'Arial', sans-serif;
-      letter-spacing: 0.1em;
-      border: 1px solid var(--border);
+      overflow: hidden;
+      border-radius: 4px;
     }
     .pres-text p {
       color: var(--subtle);
@@ -456,7 +452,7 @@
   <section id="presentation">
     <div class="container">
       <div class="pres-grid">
-        <div class="pres-photo">Photo du photographe</div>
+        <div class="pres-photo"><img src="about-photo.jpg" alt="Photographe en studio" style="width:100%;height:100%;object-fit:cover;"></div>
         <div class="pres-text">
           <p class="section-label">À propos</p>
           <h2 class="section-title">Bonjour, je suis<br><em>Sophie Martin</em></h2>
@@ -524,6 +520,7 @@
       <div class="gallery-tabs">
         <button class="tab-btn active" onclick="switchTab('photos', this)">Photos</button>
         <button class="tab-btn" onclick="switchTab('videos', this)">Vidéos</button>
+        <button class="tab-btn" onclick="switchTab('evenements', this)">Événements</button>
       </div>
 
       <div class="tab-content active" id="tab-photos">
@@ -558,6 +555,14 @@
             <div class="play-btn"></div>
             <span>Portrait filmé — Book acteur</span>
           </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-evenements">
+        <div class="photo-grid">
+          <div class="photo-item"><img src="event-mariage.jpg" alt="Mariage — Cérémonie et soirée"></div>
+          <div class="photo-item">Événement 2</div>
+          <div class="photo-item">Événement 3</div>
         </div>
       </div>
     </div>
