@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Studio Lumière — Photographe</title>
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --dark: #111;
+      --gray: #1e1e1e;
+      --mid: #444;
+      --light: #ccc;
+      --white: #f5f5f5;
+      --gold: #c9a96e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(201,169,110,0.15);
+    }
+    .logo {
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      font-style: italic;
+    }
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul a {
+      text-decoration: none;
+      color: var(--light);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    nav ul a:hover { color: var(--gold); }
+
+    /* HERO */
+    #hero {
+      height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1209 50%, #0a0a0a 100%);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 30%, rgba(201,169,110,0.05) 0%, transparent 50%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(201,169,110,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(201,169,110,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      text-align: center; position: relative; z-index: 2;
+      padding: 0 2rem;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(201,169,110,0.3);
+      padding: 0.4rem 1.2rem;
+    }
+    h1 {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      line-height: 1.1;
+      color: var(--white);
+    }
+    h1 span { color: var(--gold); font-style: italic; }
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--mid);
+      letter-spacing: 0.1em;
+      font-style: italic;
+    }
+    .hero-cta {
+      display: inline-block;
+      margin-top: 3rem;
+      padding: 1rem 3rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    .hero-cta:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+    .scroll-indicator {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: var(--mid); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.3; } 50% { opacity: 1; }
+    }
+
+    /* SECTIONS COMMUNES */
+    section { padding: 7rem 0; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 4rem; }
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+    }
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+    h2 em { color: var(--gold); font-style: italic; }
+    .divider {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin-bottom: 3rem;
+    }
+
+    /* PRESENTATION */
+    #presentation { background: var(--dark); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-img {
+      aspect-ratio: 3/4;
+      background: var(--gray);
+      position: relative;
+      overflow: hidden;
+    }
+    .about-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(201,169,110,0.1), transparent);
+    }
+    .about-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; opacity: 0.15;
+    }
+    .about-img::after {
+      content: '';
+      position: absolute;
+      top: 20px; left: 20px; right: -20px; bottom: -20px;
+      border: 1px solid rgba(201,169,110,0.2);
+      z-index: -1;
+    }
+    .about-text p {
+      color: var(--light);
+      line-height: 1.9;
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+    }
+    .about-stats {
+      display: flex; gap: 3rem; margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--gold);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    /* PRESTATIONS */
+    #prestations { background: var(--black); }
+    .prestations-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 1rem;
+    }
+    .prestation-card {
+      background: var(--gray);
+      padding: 3rem 2.5rem;
+      position: relative;
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .prestation-card:hover { background: #252525; }
+    .prestation-card.featured {
+      background: linear-gradient(135deg, #1e1509 0%, #252010 100%);
+      border: 1px solid rgba(201,169,110,0.3);
+    }
+    .featured-badge {
+      position: absolute; top: -1px; right: 2rem;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+    }
+    .card-icon { font-size: 2rem; margin-bottom: 1.5rem; opacity: 0.8; }
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+    .card-features {
+      list-style: none;
+      margin-bottom: 2.5rem;
+    }
+    .card-features li {
+      font-size: 0.85rem;
+      color: var(--light);
+      padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .card-features li::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--gold);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .price {
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+    .price span { font-size: 0.9rem; color: var(--mid); }
+
+    /* GALERIE */
+    #galerie { background: var(--dark); }
+    .gallery-filter {
+      display: flex; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--mid);
+      padding: 0.5rem 1.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 4px;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      background: var(--gray);
+      cursor: pointer;
+    }
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:nth-child(5) { grid-column: span 2; }
+    .gallery-item:nth-child(8) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item .inner {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; opacity: 0.12;
+      transition: transform 0.5s;
+    }
+    .gallery-item:hover .inner { transform: scale(1.05); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(10,10,10,0);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { background: rgba(10,10,10,0.5); }
+    .overlay-icon {
+      color: var(--white); font-size: 1.5rem;
+      opacity: 0; transform: scale(0.8);
+      transition: all 0.3s;
+    }
+    .gallery-item:hover .overlay-icon { opacity: 1; transform: scale(1); }
+    .gallery-item.video-item .inner { font-size: 2rem; opacity: 0.2; }
+    .video-badge {
+      position: absolute; top: 0.8rem; left: 0.8rem;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.95);
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox-content {
+      max-width: 80vw; max-height: 80vh;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-placeholder {
+      width: 700px; max-width: 80vw;
+      aspect-ratio: 16/10;
+      background: var(--gray);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8rem; opacity: 0.15;
+    }
+    .lightbox-close {
+      position: fixed; top: 2rem; right: 2rem;
+      background: none; border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white); font-size: 1.2rem;
+      width: 3rem; height: 3rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s;
+    }
+    .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* CONTACT */
+    #contact { background: var(--black); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact-info { padding-top: 1rem; }
+    .contact-info p {
+      color: var(--light);
+      line-height: 1.9;
+      margin-bottom: 3rem;
+    }
+    .contact-details { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .detail-icon {
+      width: 2.5rem; height: 2.5rem;
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      color: var(--gold);
+    }
+    .detail-text small {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.2rem;
+    }
+    .detail-text span {
+      font-size: 0.95rem;
+      color: var(--light);
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+    input, select, textarea {
+      background: var(--gray);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--white);
+      padding: 1rem 1.2rem;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+      outline: none;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(201,169,110,0.5);
+    }
+    input::placeholder, textarea::placeholder { color: var(--mid); }
+    select option { background: var(--gray); }
+    textarea { resize: vertical; min-height: 140px; }
+    .form-submit {
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 1.1rem 3rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: bold;
+      transition: all 0.3s;
+      align-self: flex-start;
+    }
+    .form-submit:hover {
+      background: #d4b47a;
+      transform: translateY(-2px);
+    }
+    .form-success {
+      display: none;
+      background: rgba(201,169,110,0.1);
+      border: 1px solid rgba(201,169,110,0.3);
+      padding: 1.5rem;
+      color: var(--gold);
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 3rem 0;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo { color: var(--gold); font-size: 1.2rem; font-style: italic; }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a {
+      text-decoration: none;
+      color: var(--mid);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--mid);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      nav ul { gap: 1.5rem; }
+      .container { padding: 0 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .about-img { aspect-ratio: 4/3; }
+      .prestations-grid { grid-template-columns: 1fr; gap: 2px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item:nth-child(1) { grid-column: span 2; }
+      .gallery-item:nth-child(5) { grid-column: span 1; }
+      .gallery-item:nth-child(8) { grid-column: span 1; grid-row: span 1; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      nav ul { display: none; }
+      h1 { font-size: 2.8rem; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
+      .about-stats { flex-direction: column; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <div class="logo">Studio Lumière</div>
+  <ul>
+    <li><a href="#presentation">À propos</a></li>
+    <li><a href="#prestations">Prestations</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Photographe Professionnel</div>
+    <h1>Capturer <span>l'instant</span><br>parfait</h1>
+    <p class="hero-sub">Portraits · Mariages · Événements · Mode</p>
+    <a href="#galerie" class="hero-cta">Voir la galerie</a>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- PRESENTATION -->
+<section id="presentation">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img">
+        <div class="about-img-placeholder">&#9741;</div>
+      </div>
+      <div class="about-text">
+        <div class="section-label">À propos</div>
+        <h2>Une vision,<br><em>votre histoire</em></h2>
+        <div class="divider"></div>
+        <p>Photographe passionné depuis plus de 10 ans, je capture les émotions authentiques et les moments qui font la beauté de la vie. Mon approche mêle technique rigoureuse et sensibilité artistique pour vous offrir des images qui traversent le temps.</p>
+        <p>Que ce soit pour un mariage, un portrait, un événement d'entreprise ou une séance mode, chaque projet est traité avec la même exigence et le même souci du détail. Je vous accompagne de la prise de vue jusqu'à la livraison des clichés retouchés.</p>
+        <div class="about-stats">
+          <div>
+            <span class="stat-num">10+</span>
+            <span class="stat-label">Ans d'expérience</span>
+          </div>
+          <div>
+            <span class="stat-num">500+</span>
+            <span class="stat-label">Clients satisfaits</span>
+          </div>
+          <div>
+            <span class="stat-num">50+</span>
+            <span class="stat-label">Prix et distinctions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESTATIONS & TARIFS -->
+<section id="prestations">
+  <div class="container">
+    <div class="section-label">Prestations & Tarifs</div>
+    <h2>Des formules<br><em>pour chaque besoin</em></h2>
+    <div class="divider"></div>
+    <div class="prestations-grid">
+
+      <div class="prestation-card">
+        <div class="card-icon">&#9728;</div>
+        <div class="card-title">Portrait & Mode</div>
+        <div class="card-desc">Séances en studio ou en extérieur, pour particuliers et professionnels.</div>
+        <ul class="card-features">
+          <li>2h de prise de vue</li>
+          <li>30 photos retouchées</li>
+          <li>Studio inclus</li>
+          <li>Livraison sous 7 jours</li>
+        </ul>
+        <div class="price">250 € <span>/ séance</span></div>
+      </div>
+
+      <div class="prestation-card featured">
+        <div class="featured-badge">Populaire</div>
+        <div class="card-icon">&#10084;</div>
+        <div class="card-title">Mariage</div>
+        <div class="card-desc">Couverture complète de votre journée, des préparatifs à la soirée.</div>
+        <ul class="card-features">
+          <li>Journée complète (8h)</li>
+          <li>200+ photos retouchées</li>
+          <li>Vidéo highlight 3 min</li>
+          <li>Album photo premium</li>
+          <li>Livraison sous 3 semaines</li>
+        </ul>
+        <div class="price">1 800 € <span>/ journée</span></div>
+      </div>
+
+      <div class="prestation-card">
+        <div class="card-icon">&#9673;</div>
+        <div class="card-title">Événement & Corporate</div>
+        <div class="card-desc">Conférences, soirées d'entreprise, inaugurations, team building...</div>
+        <ul class="card-features">
+          <li>Demi-journée ou journée</li>
+          <li>50 à 150 photos retouchées</li>
+          <li>Usage commercial inclus</li>
+          <li>Livraison sous 5 jours</li>
+        </ul>
+        <div class="price">450 € <span>/ demi-journée</span></div>
+      </div>
+
+    </div>
+    <p style="text-align:center; margin-top:2.5rem; color: var(--mid); font-size:0.85rem; font-style:italic;">
+      * Devis personnalisé sur demande — Déplacement inclus dans un rayon de 50 km
+    </p>
+  </div>
+</section>
+
+<!-- GALERIE -->
+<section id="galerie">
+  <div class="container">
+    <div class="section-label">Galerie</div>
+    <h2>Quelques<br><em>réalisations</em></h2>
+    <div class="divider"></div>
+    <div class="gallery-filter">
+      <button class="filter-btn active" data-filter="all">Tout</button>
+      <button class="filter-btn" data-filter="portrait">Portraits</button>
+      <button class="filter-btn" data-filter="mariage">Mariages</button>
+      <button class="filter-btn" data-filter="event">Événements</button>
+      <button class="filter-btn" data-filter="video">Vidéos</button>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item" data-cat="mariage" onclick="openLightbox(this)">
+        <div class="inner">&#9829;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item" data-cat="portrait" onclick="openLightbox(this)">
+        <div class="inner">&#9737;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item" data-cat="event" onclick="openLightbox(this)">
+        <div class="inner">&#9673;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item" data-cat="portrait" onclick="openLightbox(this)">
+        <div class="inner">&#9737;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item video-item" data-cat="video" onclick="openLightbox(this)">
+        <div class="video-badge">Video</div>
+        <div class="inner">&#9654;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#9654;</div></div>
+      </div>
+      <div class="gallery-item" data-cat="mariage" onclick="openLightbox(this)">
+        <div class="inner">&#9829;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item" data-cat="event" onclick="openLightbox(this)">
+        <div class="inner">&#9673;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item" data-cat="mariage" onclick="openLightbox(this)">
+        <div class="inner">&#9829;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item" data-cat="portrait" onclick="openLightbox(this)">
+        <div class="inner">&#9737;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#8853;</div></div>
+      </div>
+      <div class="gallery-item video-item" data-cat="video" onclick="openLightbox(this)">
+        <div class="video-badge">Video</div>
+        <div class="inner">&#9654;</div>
+        <div class="gallery-overlay"><div class="overlay-icon">&#9654;</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <div class="lightbox-placeholder">&#9741;</div>
+  </div>
+  <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="section-label">Contact</div>
+        <h2>Parlons de<br><em>votre projet</em></h2>
+        <div class="divider"></div>
+        <p>Vous avez un projet en tête ? N'hésitez pas à me contacter pour un devis gratuit et personnalisé. Je vous répondrai dans les 24h.</p>
+        <div class="contact-details">
+          <div class="contact-detail">
+            <div class="detail-icon">&#9742;</div>
+            <div class="detail-text">
+              <small>Téléphone</small>
+              <span>06 00 00 00 00</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">&#9993;</div>
+            <div class="detail-text">
+              <small>Email</small>
+              <span>contact@studiolumiere.fr</span>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">&#9679;</div>
+            <div class="detail-text">
+              <small>Localisation</small>
+              <span>Paris & Île-de-France</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" name="prenom" placeholder="Sophie" required />
+            </div>
+            <div class="form-group">
+              <label for="nom">Nom *</label>
+              <input type="text" id="nom" name="nom" placeholder="Dupont" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" placeholder="sophie@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="tel">Téléphone</label>
+              <input type="tel" id="tel" name="tel" placeholder="06 00 00 00 00" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="prestation">Type de prestation *</label>
+            <select id="prestation" name="prestation" required>
+              <option value="">Choisir une prestation...</option>
+              <option value="portrait">Portrait & Mode</option>
+              <option value="mariage">Mariage</option>
+              <option value="evenement">Événement & Corporate</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date">Date souhaitée</label>
+              <input type="date" id="date" name="date" />
+            </div>
+            <div class="form-group">
+              <label for="budget">Budget indicatif</label>
+              <select id="budget" name="budget">
+                <option value="">Sélectionner...</option>
+                <option value="<500">Moins de 500 €</option>
+                <option value="500-1000">500 € – 1 000 €</option>
+                <option value="1000-2000">1 000 € – 2 000 €</option>
+                <option value=">2000">Plus de 2 000 €</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Décrivez votre projet *</label>
+            <textarea id="message" name="message" placeholder="Parlez-moi de votre projet, du lieu, du nombre de personnes, de vos attentes..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Envoyer ma demande</button>
+          <div class="form-success" id="formSuccess">
+            Votre demande a bien été envoyée ! Je vous contacte sous 24h.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">Studio Lumière</div>
+      <div class="footer-links">
+        <a href="#presentation">À propos</a>
+        <a href="#prestations">Prestations</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 Studio Lumière — Tous droits réservés</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // GALERIE FILTER
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        if (filter === 'all' || item.dataset.cat === filter) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // LIGHTBOX
+  function openLightbox(el) {
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e) {
+    if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox({ target: document.getElementById('lightbox') });
+  });
+
+  // FORM
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Envoi en cours...';
+    btn.disabled = true;
+    setTimeout(() => {
+      e.target.reset();
+      btn.style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }, 1200);
+  }
+
+  // NAV SCROLL
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    nav.style.background = window.scrollY > 50
+      ? 'rgba(10,10,10,0.98)'
+      : 'rgba(10,10,10,0.85)';
+  });
+</script>
+</body>
+</html>
